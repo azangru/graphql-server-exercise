@@ -2,6 +2,8 @@ import { Query, Resolver, Field, Int, Args, ArgsType } from "type-graphql";
 
 import Region from '../entities/region';
 
+import { getRegion } from '../models/region-model';
+
 @ArgsType()
 class RegionArgs {
   @Field(type => String, { nullable: false })
@@ -20,7 +22,8 @@ class RegionArgs {
 @Resolver(() => Region)
 export default class RegionResolver {
   @Query(() => Region)
-  region(@Args() { species, chromosome, start, end }: RegionArgs) {
+  async region(@Args() { species, chromosome, start, end }: RegionArgs) {
+    await(getRegion({ species, chromosome, start, end }));
     return {
       chromosome,
       start,
