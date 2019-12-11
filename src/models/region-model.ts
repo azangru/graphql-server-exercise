@@ -23,7 +23,8 @@ export const getRegion = async (params: GetRegionParams) => {
   const reqion = `${params.chromosome}:${params.start}-${params.end}`;
   const url = `https://rest.ensembl.org/overlap/region/${params.species}/${reqion}?content-type=application/json;feature=gene;feature=transcript;feature=exon;feature=cds`;
   try {
-    const response = await request(url);
+    const response = await request(url, { json: true });
+    populateStore(response, params.store);
     return response;
   } catch (error) {
     console.log('error', error)

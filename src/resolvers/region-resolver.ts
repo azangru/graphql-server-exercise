@@ -1,8 +1,10 @@
-import { Query, Resolver, Field, Int, Args, ArgsType } from "type-graphql";
+import { Query, Resolver, Field, Int, Args, Ctx, ArgsType, FieldResolver } from "type-graphql";
 
 import Region from '../entities/region';
 
 import { getRegion } from '../models/region-model';
+
+import { Context } from '../types/context';
 
 @ArgsType()
 class RegionArgs {
@@ -22,17 +24,20 @@ class RegionArgs {
 @Resolver(() => Region)
 export default class RegionResolver {
   @Query(() => Region)
-  async region(@Args() { species, chromosome, start, end }: RegionArgs) {
-    await(getRegion({ species, chromosome, start, end }));
+  async region(
+    @Args() { species, chromosome, start, end }: RegionArgs,
+    @Ctx() { store }: Context
+  ) {
+    await(getRegion({ species, chromosome, start, end, store }));
     return {
       chromosome,
       start,
-      end,
-      genes: [{
-        id: 1,
-        name: 'foo',
-        description: 'this is foo'
-      }]
+      end
     };
+  }
+
+  @FieldResolver()
+  genes(@Ctx() { store }: Context) {
+    return Object.values(store.genes);
   }
 }
