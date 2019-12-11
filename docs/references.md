@@ -8,4 +8,5 @@
 - [Gnomad graphQL api](https://github.com/macarthur-lab/gnomadjs/tree/master/projects/gnomad-api)
 
 
-questionable
+Typescript starter kits:
+- https://github.com/thmsgbrt/nodejs-typescript-express-apollo-graphql-starter

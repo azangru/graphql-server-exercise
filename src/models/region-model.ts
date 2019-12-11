@@ -1,34 +1,22 @@
 import request from 'request-promise-native';
 
+import { buildGeneWithoutTranscript } from '../helpers/gene-helpers';
+import { buildTranscriptWithoutGene } from '../helpers/transcript-helpers';
+
 import {
   Region as RegionType,
   Feature,
   Gene as ResponseGeneType,
   Transcript as ResponseTranscriptType
 } from '../rest-response-types/region';
+import { Store as StoreType } from '../types/store';
 
 type GetRegionParams = {
   species: string;
   chromosome: string;
   start: number;
   end: number;
-}
-
-type Entities = {
-  genes: {
-    [id: string]: ResponseGeneType
-  };
-  transcripts: {
-    [id: string]: ResponseTranscriptType
-  };
-};
-
-type FeatureMap = {
-  ids: {
-    geneIds: string[];
-    transcriptIds: string[];
-  },
-  entities: Entities;
+  store: StoreType
 };
 
 export const getRegion = async (params: GetRegionParams) => {
@@ -43,20 +31,26 @@ export const getRegion = async (params: GetRegionParams) => {
 };
 
 
-const buildEntitiesMap = (response: RegionType) => {
-  const entities = response.reduce((result: Entities, feature: Feature) => {
-    if (feature.feature_type === 'gene') {
-      result.genes[feature.id] = feature;
-    } else if (feature.feature_type === 'transcript') {
-      result.transcripts[feature.id] = feature;
-    }
-
-    return result;
-  }, {genes: {}, transcripts: {}});
-
+const populateStore = (response: RegionType, store: StoreType) => {
+  // in the first pass, build genes and transcripts
   response.forEach((feature: Feature) => {
-    if (feature.feature_type === 'exon') {
-      entities.transcripts[feature.Parent].exons.push(feature);
+    if (feature.feature_type === 'gene' && !store.genes[feature.id]) {
+      store.genes[feature.id] = buildGeneWithoutTranscript(feature);
+    } else if (feature.feature_type === 'transcript' && !store.transcripts[feature.id]) {
+      store.transcripts[feature.id] = buildTranscriptWithoutGene(feature);
     }
   });
+
+  response.forEach((feature: Feature) => {
+    if (feature.feature_type === 'transcript') {
+      const gene = store.genes[feature.Parent];
+      gene.transcript_ids.add(feature.id);
+    }
+  });
+
+  // response.forEach((feature: Feature) => {
+  //   if (feature.feature_type === 'exon') {
+  //     entities.transcripts[feature.Parent].exons.push(feature);
+  //   }
+  // });
 };
