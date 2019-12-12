@@ -10,3 +10,7 @@
 
 Typescript starter kits:
 - https://github.com/thmsgbrt/nodejs-typescript-express-apollo-graphql-starter
+
+
+Interesting talks:
+- Lee Byron. [Lessons from 4 years of GraphQL](https://youtu.be/zVNrqo9XGOs)

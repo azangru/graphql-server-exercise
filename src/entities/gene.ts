@@ -1,9 +1,14 @@
 import { Field, ObjectType } from 'type-graphql';
 
+import Transcript from './transcript';
+
 @ObjectType()
 export default class Gene {
   @Field(() => String)
   id: string;
+
+  @Field(() => Number)
+  version: string;
 
   @Field(() => String)
   name: string;
@@ -31,6 +36,9 @@ export default class Gene {
 
   @Field(() => Number)
   end: number;
+
+  @Field(() => [Transcript])
+  transcripts: Transcript[]
 
   // should also add transcripts
 }
