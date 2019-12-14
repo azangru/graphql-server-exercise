@@ -1,6 +1,7 @@
 import { Query, Resolver, Field, Int, Args, Ctx, ArgsType, FieldResolver } from "type-graphql";
 
 import Region from '../entities/region';
+import Gene from '../entities/gene';
 
 import { getRegion } from '../models/region-model';
 
@@ -36,7 +37,7 @@ export default class RegionResolver {
     };
   }
 
-  @FieldResolver()
+  @FieldResolver(() => [Gene])
   genes(@Ctx() { store }: Context) {
     return Object.values(store.genes);
   }

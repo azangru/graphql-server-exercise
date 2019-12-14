@@ -1,15 +1,30 @@
-import { Query, Resolver } from "type-graphql";
+import { Query, Resolver, FieldResolver } from "type-graphql";
 
 import Gene from '../entities/gene';
+import Transcript from '../entities/transcript';
 
 @Resolver(() => Gene)
 export default class GeneResolver {
   @Query(() => Gene)
   gene() {
     return {
-      id: 1,
+      id: 'x',
+      version: '1',
       name: 'foo',
-      description: 'this is foo'
+      description: 'this is foo',
+      seq_region_name: 'some region',
+      symbol: 'foo',
+      biotype: 'who knows',
+      assembly_name: 'no clue'
     };
   }
+
+  @FieldResolver(() => Transcript)
+  transcript() {
+    console.log('transcript was called');
+    return {
+      id: 'transcript id'
+    };
+  }
+
 }
