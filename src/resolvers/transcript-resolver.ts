@@ -4,12 +4,12 @@ import Gene from '../entities/gene';
 import Transcript from '../entities/transcript';
 
 import { Context } from '../types/context';
-import { GeneWithoutTranscript } from '../types/gene';
+import { TranscriptWithoutGene } from '../types/transcript';
 
-@Resolver(() => Gene)
-export default class GeneResolver {
-  @Query(() => Gene)
-  gene() {
+@Resolver(() => Transcript)
+export default class TranscriptResolver {
+  @Query(() => Transcript)
+  transcript() {
     return {
       id: 'x',
       version: '1',
@@ -22,12 +22,11 @@ export default class GeneResolver {
     };
   }
 
-  @FieldResolver(() => [Transcript])
-  transcripts(@Root() gene: GeneWithoutTranscript, @Ctx() { store }: Context) {
-    const transcripts = [...gene.transcript_ids.values()]
-      .map(transcriptId => store.transcripts[transcriptId]);
+  @FieldResolver(() => Gene)
+  gene(@Root() transcript: TranscriptWithoutGene, @Ctx() { store }: Context) {
+    const gene = store.genes[transcript.gene_id];
 
-    return transcripts;
+    return gene;
   }
 
 }
