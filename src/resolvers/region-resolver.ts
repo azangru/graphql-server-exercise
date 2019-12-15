@@ -9,16 +9,16 @@ import { Context } from '../types/context';
 
 @ArgsType()
 class RegionArgs {
-  @Field(type => String, { nullable: false })
+  @Field(() => String, { nullable: false })
   species: string;
 
-  @Field(type => String, { nullable: false })
+  @Field(() => String, { nullable: false })
   chromosome: string;
 
-  @Field(type => Int, { nullable: false })
+  @Field(() => Int, { nullable: false })
   start: number;
 
-  @Field(type => Int, { nullable: false })
+  @Field(() => Int, { nullable: false })
   end: number;
 }
 

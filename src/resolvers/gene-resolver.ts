@@ -1,7 +1,10 @@
-import { Query, Resolver, FieldResolver } from "type-graphql";
+import { Query, Resolver, Root, Ctx, FieldResolver } from "type-graphql";
 
 import Gene from '../entities/gene';
 import Transcript from '../entities/transcript';
+
+import { Context } from '../types/context';
+import { GeneWithoutTranscript } from '../types/gene';
 
 @Resolver(() => Gene)
 export default class GeneResolver {
@@ -19,12 +22,12 @@ export default class GeneResolver {
     };
   }
 
-  @FieldResolver(() => Transcript)
-  transcript() {
-    console.log('transcript was called');
-    return {
-      id: 'transcript id'
-    };
+  @FieldResolver(() => [Transcript])
+  transcript(@Root() gene: GeneWithoutTranscript, @Ctx() { store }: Context) {
+    const transcripts = [...gene.transcript_ids.values()]
+      .map(transcriptId => store.transcripts[transcriptId]);
+
+    return transcripts;
   }
 
 }

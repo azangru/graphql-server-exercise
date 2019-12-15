@@ -1,6 +1,7 @@
 import { Field, ObjectType } from 'type-graphql';
 
 import Transcript from './transcript';
+import Slice from './slice';
 
 @ObjectType()
 export default class Gene {
@@ -8,7 +9,7 @@ export default class Gene {
   id: string;
 
   @Field(() => Number)
-  version: string;
+  version: number;
 
   @Field(() => String)
   name: string;
@@ -20,25 +21,14 @@ export default class Gene {
   seq_region_name: string;
 
   @Field(() => String)
-  symbol: string;
-
-  @Field(() => String)
   biotype: string;
 
   @Field(() => String)
   assembly_name: string;
 
-  @Field(() => Number)
-  strand: number;
-
-  @Field(() => Number)
-  start: number;
-
-  @Field(() => Number)
-  end: number;
+  @Field(() => Slice)
+  slice: Slice;
 
   @Field(() => [Transcript])
   transcripts: Transcript[]
-
-  // should also add transcripts
 }
