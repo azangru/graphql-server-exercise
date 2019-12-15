@@ -37,8 +37,10 @@ const populateStore = (response: RegionType, store: StoreType) => {
   response.forEach((feature: Feature) => {
     if (feature.feature_type === 'gene' && !store.genes[feature.id]) {
       store.genes[feature.id] = buildGeneWithoutTranscript(feature);
+      store.region.genes.add(feature.id);
     } else if (feature.feature_type === 'transcript' && !store.transcripts[feature.id]) {
       store.transcripts[feature.id] = buildTranscriptWithoutGene(feature);
+      store.region.transcripts.add(feature.id);
     }
   });
 

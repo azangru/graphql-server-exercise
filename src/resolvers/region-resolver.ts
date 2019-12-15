@@ -40,11 +40,13 @@ export default class RegionResolver {
 
   @FieldResolver(() => [Gene])
   genes(@Ctx() { store }: Context) {
-    return Object.values(store.genes);
+    return [...store.region.genes.values()]
+      .map(geneId => store.genes[geneId]);
   }
 
   @FieldResolver(() => [Transcript])
   transcripts(@Ctx() { store }: Context) {
-    return Object.values(store.transcripts);
+    return [...store.region.transcripts.values()]
+      .map(transcriptId => store.transcripts[transcriptId]);
   }
 }
