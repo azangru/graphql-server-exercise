@@ -5,9 +5,7 @@ import { buildTranscriptWithoutGene } from '../helpers/transcript-helpers';
 
 import {
   Region as RegionType,
-  Feature,
-  Gene as ResponseGeneType,
-  Transcript as ResponseTranscriptType
+  Feature
 } from '../rest-response-types/region';
 import { Store as StoreType } from '../types/store';
 
@@ -50,6 +48,8 @@ const populateStore = (response: RegionType, store: StoreType) => {
       gene.transcript_ids.add(feature.id);
     }
   });
+
+  // TODO: exons
 
   // response.forEach((feature: Feature) => {
   //   if (feature.feature_type === 'exon') {

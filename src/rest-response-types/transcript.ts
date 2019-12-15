@@ -1,21 +1,42 @@
+type Exon = {
+  object_type: "Exon";
+  id: string;
+  version: number;
+  assembly_name: string;
+  seq_region_name: string;
+  start: number;
+  end: number
+  strand: number
+}
+
+export type Transcript = {
+  object_type: "Transcript";
+  id: string;
+  version: number;
+  is_canonical: number;
+  Parent: string;
+  assembly_name: string;
+  display_name: string;
+  seq_region_name: string;
+  strand: number;
+  start: number;
+  end: number;
+  biotype: string;
+  Exon: Exon[]
+}
+
+
 /*
 
-biotype: "lncRNA",
-strand: -1,
-end: 20575497,
-source: "havana_tagene",
-assembly_name: "GRCh38",
-display_name: "TTTY10-213",
-seq_region_name: "Y",
-logic_name: "havana_homo_sapiens",
+Translation: {
+object_type: "Translation",
+id: "ENSP00000419060",
 db_type: "core",
-Parent: "ENSG00000229236",
-Exon: [],
-is_canonical: 0,
-start: 20464916,
+length: 767,
+start: 140726494,
 species: "homo_sapiens",
-version: 1,
-object_type: "Transcript",
-id: "ENST00000670518",
+Parent: "ENST00000496384",
+end: 140924703
+},
 
 */

@@ -1,5 +1,7 @@
 import { Query, Resolver, Arg, InputType, Field, Root, Ctx, FieldResolver } from "type-graphql";
 
+import { getGeneById } from '../models/gene-model';
+
 import Gene from '../entities/gene';
 import Transcript from '../entities/transcript';
 
@@ -27,8 +29,11 @@ export default class GeneResolver {
   gene(
     @Arg('byId', { nullable: true }) idInput: IdInput,
     @Arg('bySymbol', { nullable: true }) symbolInput: SymbolInput,
+    @Ctx() { store }: Context
   ) {
-    console.log('id', idInput, 'symbolInput', symbolInput);
+    if (idInput) {
+      getGeneById({id: idInput.id, store});
+    }
 
     return {
       id: 'xkcd',
