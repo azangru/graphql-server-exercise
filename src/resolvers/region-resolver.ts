@@ -2,6 +2,7 @@ import { Query, Resolver, Field, Int, Args, Ctx, ArgsType, FieldResolver } from 
 
 import Region from '../entities/region';
 import Gene from '../entities/gene';
+import Transcript from '../entities/transcript';
 
 import { getRegion } from '../models/region-model';
 
@@ -40,5 +41,10 @@ export default class RegionResolver {
   @FieldResolver(() => [Gene])
   genes(@Ctx() { store }: Context) {
     return Object.values(store.genes);
+  }
+
+  @FieldResolver(() => [Transcript])
+  transcripts(@Ctx() { store }: Context) {
+    return Object.values(store.transcripts);
   }
 }

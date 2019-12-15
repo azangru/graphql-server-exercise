@@ -1,5 +1,7 @@
 import { Field, ObjectType } from 'type-graphql';
+
 import Gene from './gene';
+import Transcript from './transcript';
 
 @ObjectType()
 export default class Region {
@@ -14,4 +16,7 @@ export default class Region {
 
   @Field(() => [Gene])
   genes: Gene[];
+
+  @Field(() => [Transcript])
+  transcripts: Transcript[];
 }
