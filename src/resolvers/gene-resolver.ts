@@ -1,4 +1,4 @@
-import { Query, Resolver, Root, Ctx, FieldResolver } from "type-graphql";
+import { Query, Resolver, Arg, InputType, Field, Root, Ctx, FieldResolver } from "type-graphql";
 
 import Gene from '../entities/gene';
 import Transcript from '../entities/transcript';
@@ -6,12 +6,32 @@ import Transcript from '../entities/transcript';
 import { Context } from '../types/context';
 import { GeneWithoutTranscript } from '../types/gene';
 
+@InputType()
+class IdInput {
+  @Field()
+  id: string;
+};
+
+@InputType()
+class SymbolInput {
+  @Field()
+  symbol: string;
+
+  @Field()
+  species: string;
+};
+
 @Resolver(() => Gene)
 export default class GeneResolver {
   @Query(() => Gene)
-  gene() {
+  gene(
+    @Arg('byId', { nullable: true }) idInput: IdInput,
+    @Arg('bySymbol', { nullable: true }) symbolInput: SymbolInput,
+  ) {
+    console.log('id', idInput, 'symbolInput', symbolInput);
+
     return {
-      id: 'x',
+      id: 'xkcd',
       version: '1',
       name: 'foo',
       description: 'this is foo',
