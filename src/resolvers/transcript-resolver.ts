@@ -1,4 +1,6 @@
-import { Query, Resolver, Root, Ctx, FieldResolver } from "type-graphql";
+import { Query, Resolver, Arg, InputType, Field, Root, Ctx, Info, FieldResolver } from "type-graphql";
+
+import { getTranscriptById } from '../models/transcript-model';
 
 import Gene from '../entities/gene';
 import Transcript from '../entities/transcript';
@@ -6,20 +8,27 @@ import Transcript from '../entities/transcript';
 import { Context } from '../types/context';
 import { TranscriptWithoutGene } from '../types/transcript';
 
+@InputType()
+class TranscriptIdInput {
+  @Field()
+  id: string;
+};
+
 @Resolver(() => Transcript)
 export default class TranscriptResolver {
   @Query(() => Transcript)
-  transcript() {
-    return {
-      id: 'x',
-      version: '1',
-      name: 'foo',
-      description: 'this is foo',
-      seq_region_name: 'some region',
-      symbol: 'foo',
-      biotype: 'who knows',
-      assembly_name: 'no clue'
-    };
+  async transcript(
+    @Arg('byId', { nullable: true }) idInput: TranscriptIdInput,
+    @Ctx() { store }: Context,
+    @Info() info: any
+  ) {
+    // console.log('info', info.fieldNodes.map((x: any) => JSON.stringify(x.selectionSet.selections)));
+
+    if(idInput) {
+      const { id } = idInput;
+      await getTranscriptById({id, store});
+      return store.transcripts[id];
+    }
   }
 
   @FieldResolver(() => Gene)
