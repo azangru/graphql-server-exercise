@@ -1,15 +1,18 @@
 import {
-  Transcript as ResponseTranscriptType
+  Transcript as RegionTranscriptType
 } from '../rest-response-types/region';
+import { Transcript as TranscriptType } from '../rest-response-types/transcript';
 
 import {
   TranscriptWithoutGene
 } from '../types/transcript';
 
-export const buildTranscriptWithoutGene = (source: ResponseTranscriptType): TranscriptWithoutGene => {
+type SourceTranscript = RegionTranscriptType | TranscriptType;
+
+export const buildTranscriptWithoutGene = (source: SourceTranscript): TranscriptWithoutGene => {
   return {
     id: source.id,
-    name: source.external_name || null,
+    name: (source as RegionTranscriptType).external_name || (source as TranscriptType).display_name || null,
     version: source.version,
     slice: {
       region: { // FIXME: region

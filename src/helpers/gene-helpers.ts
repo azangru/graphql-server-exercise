@@ -1,15 +1,18 @@
 import {
-  Gene as ResponseGeneType
+  Gene as RegionGeneType
 } from '../rest-response-types/region';
+import { Gene as GeneType } from '../rest-response-types/gene';
 
 import {
   GeneWithoutTranscript
 } from '../types/gene';
 
-export const buildGeneWithoutTranscript = (source: ResponseGeneType): GeneWithoutTranscript => {
+type SourceGene = RegionGeneType | GeneType;
+
+export const buildGeneWithoutTranscript = (source: SourceGene): GeneWithoutTranscript => {
   return {
     id: source.id,
-    name: source.external_name,
+    name: (source as RegionGeneType).external_name || (source as GeneType).display_name,
     version: source.version,
     slice: {
       region: { // FIXME: region

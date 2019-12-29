@@ -26,25 +26,16 @@ class SymbolInput {
 @Resolver(() => Gene)
 export default class GeneResolver {
   @Query(() => Gene)
-  gene(
+  async gene(
     @Arg('byId', { nullable: true }) idInput: IdInput,
     @Arg('bySymbol', { nullable: true }) symbolInput: SymbolInput,
     @Ctx() { store }: Context
   ) {
     if (idInput) {
-      getGeneById({id: idInput.id, store});
+      const { id } = idInput;
+      await getGeneById({id, store});
+      return store.genes[id];
     }
-
-    return {
-      id: 'xkcd',
-      version: '1',
-      name: 'foo',
-      description: 'this is foo',
-      seq_region_name: 'some region',
-      symbol: 'foo',
-      biotype: 'who knows',
-      assembly_name: 'no clue'
-    };
   }
 
   @FieldResolver(() => [Transcript])
