@@ -1,6 +1,6 @@
 import { Query, Resolver, Arg, InputType, Field, Root, Ctx, FieldResolver } from "type-graphql";
 
-import { getGeneById } from '../models/gene-model';
+import { getGeneById, getGeneBySymbol } from '../models/gene-model';
 
 import Gene from '../entities/gene';
 import Transcript from '../entities/transcript';
@@ -35,6 +35,11 @@ export default class GeneResolver {
       const { id } = idInput;
       await getGeneById({id, store});
       return store.genes[id];
+    } else if (symbolInput) {
+      const { symbol, species } = symbolInput;
+      await getGeneBySymbol({symbol, species, store});
+      const gene = Object.values(store.genes).find(gene => gene.name === symbol);
+      return gene;
     }
   }
 

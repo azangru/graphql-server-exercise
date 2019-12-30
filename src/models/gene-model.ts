@@ -18,7 +18,7 @@ type GetGeneBySymbolParams = {
 };
 
 export const getGeneById = async (params: GetGeneByIdParams) => {
-  const url = `https://rest.ensembl.org//lookup/id/${params.id}?content-type=application/json;expand=1`;
+  const url = `https://rest.ensembl.org/lookup/id/${params.id}?content-type=application/json;expand=1`;
   try {
     const response = await request(url, { json: true });
     populateStore(response, params.store);
@@ -27,6 +27,17 @@ export const getGeneById = async (params: GetGeneByIdParams) => {
     console.log('error', error)
   }
 };
+
+export const getGeneBySymbol = async (params: GetGeneBySymbolParams) => {
+  const url = `https://rest.ensembl.org/lookup/symbol/${params.species}/${params.symbol}?content-type=application/json;expand=1`;
+  try {
+    const response = await request(url, { json: true });
+    populateStore(response, params.store);
+    return response;
+  } catch (error) {
+    console.log('error', error)
+  }
+}
 
 const populateStore = (gene: GeneType, store: StoreType) => {
   store.genes[gene.id] = buildGeneWithoutTranscript(gene);
