@@ -20,13 +20,11 @@ export default class TranscriptResolver {
   async transcript(
     @Arg('byId', { nullable: true }) idInput: TranscriptIdInput,
     @Ctx() { store }: Context,
-    @Info() info: any
+    @Info() queryAST: any
   ) {
-    // console.log('info', info.fieldNodes.map((x: any) => JSON.stringify(x.selectionSet.selections)));
-
     if(idInput) {
       const { id } = idInput;
-      await getTranscriptById({id, store});
+      await getTranscriptById({id, store, queryAST});
       return store.transcripts[id];
     }
   }
