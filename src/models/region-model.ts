@@ -5,7 +5,9 @@ import { buildTranscriptWithoutGene } from '../helpers/transcript-helpers';
 
 import {
   Region as RegionType,
-  Feature
+  Transcript,
+  Feature,
+  Exon
 } from '../rest-response-types/region';
 import { Store as StoreType } from '../types/store';
 
@@ -37,7 +39,8 @@ const populateStore = (response: RegionType, store: StoreType) => {
       store.genes[feature.id] = buildGeneWithoutTranscript(feature);
       store.region.genes.add(feature.id);
     } else if (feature.feature_type === 'transcript' && !store.transcripts[feature.id]) {
-      store.transcripts[feature.id] = buildTranscriptWithoutGene(feature);
+      const transcriptWithExons = buildTranscriptWithoutGene(addExonsToTranscript(feature, response))
+      store.transcripts[feature.id] = transcriptWithExons;
       store.region.transcripts.add(feature.id);
     }
   });
@@ -48,12 +51,12 @@ const populateStore = (response: RegionType, store: StoreType) => {
       gene.transcript_ids.add(feature.id);
     }
   });
-
-  // TODO: exons
-
-  // response.forEach((feature: Feature) => {
-  //   if (feature.feature_type === 'exon') {
-  //     entities.transcripts[feature.Parent].exons.push(feature);
-  //   }
-  // });
 };
+
+const addExonsToTranscript = (transcript: Transcript, response: RegionType): Transcript & { exons: Exon[] } => {
+  const exons = response.filter(feature => feature.feature_type === 'exon' && feature.Parent === transcript.id) as Exon[];
+  return {
+    ...transcript,
+    exons
+  };
+}
