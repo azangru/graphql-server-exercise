@@ -13,7 +13,7 @@ export default class Transcript {
   version: string;
 
   @Field(() => String, { nullable: true })
-  name: string;
+  symbol: string;
 
   @Field(() => String)
   biotype: string;

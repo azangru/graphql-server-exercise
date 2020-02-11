@@ -12,7 +12,7 @@ export default class Gene {
   version: number;
 
   @Field(() => String)
-  name: string;
+  symbol: string;
 
   @Field(() => String, { nullable: true })
   description?: string;

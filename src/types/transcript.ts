@@ -3,7 +3,7 @@ import { Exon } from './exon';
 
 export type TranscriptWithoutGene = {
   id: string;
-  name?: string;
+  symbol?: string;
   version: number;
   slice: Slice;
   biotype: string;

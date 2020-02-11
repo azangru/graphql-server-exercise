@@ -18,7 +18,7 @@ export const buildTranscriptWithoutGene = (source: SourceTranscript): Transcript
 
   return {
     id: source.id,
-    name: (source as RegionTranscriptType).external_name || (source as TranscriptType).display_name || null,
+    symbol: (source as RegionTranscriptType).external_name || (source as TranscriptType).display_name || null,
     version: source.version,
     slice: {
       region: { // FIXME: region

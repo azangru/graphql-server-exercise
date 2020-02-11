@@ -2,7 +2,7 @@ import { Slice } from './slice';
 
 export type GeneWithoutTranscript = {
   id: string;
-  name: string;
+  symbol: string;
   version: number;
   slice: Slice;
   description: string;

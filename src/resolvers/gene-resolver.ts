@@ -38,7 +38,7 @@ export default class GeneResolver {
     } else if (symbolInput) {
       const { symbol, species } = symbolInput;
       await getGeneBySymbol({symbol, species, store});
-      const gene = Object.values(store.genes).find(gene => gene.name === symbol);
+      const gene = Object.values(store.genes).find(gene => gene.symbol === symbol);
       return gene;
     }
   }

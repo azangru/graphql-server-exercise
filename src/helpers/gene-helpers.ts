@@ -12,7 +12,7 @@ type SourceGene = RegionGeneType | GeneType;
 export const buildGeneWithoutTranscript = (source: SourceGene): GeneWithoutTranscript => {
   return {
     id: source.id,
-    name: (source as RegionGeneType).external_name || (source as GeneType).display_name,
+    symbol: (source as RegionGeneType).external_name || (source as GeneType).display_name,
     version: source.version,
     slice: {
       region: { // FIXME: region
