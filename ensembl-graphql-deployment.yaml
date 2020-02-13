@@ -1,0 +1,20 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata: 
+  name: ensembl-graphql-server-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ensembl-graphql-server
+    spec:
+      imagePullSecrets:
+        - name: ensembl-graphql-server-pull-secret
+      containers:
+      - name: ensembl-graphql-server
+        image: <DOCKER_IMAGE>
+        command: [ "npm", "run", "start-prod" ]
+        ports:
+        - containerPort: 5000
+        imagePullPolicy: Always
