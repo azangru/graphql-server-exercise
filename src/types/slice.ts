@@ -1,6 +1,9 @@
-type Region = { // FIXME: region
+type Region = {
   name: string
-  strand: number
+  strand: {
+    code: string // 'forward' or 'reverse',
+    value: number // 1 or -1
+  }
 };
 
 type GenomicLocation = {

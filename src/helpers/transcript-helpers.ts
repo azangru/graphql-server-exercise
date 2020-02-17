@@ -23,7 +23,10 @@ export const buildTranscriptWithoutGene = (source: SourceTranscript): Transcript
     slice: {
       region: {
         name: source.seq_region_name,
-        strand: source.strand
+        strand: {
+          code: source.strand === 1 ? 'forward' : 'reverse',
+          value: source.strand
+        }
       },
       location: {
         start: source.start,
@@ -51,7 +54,10 @@ const buildExon = (exon: ExonType, transcript: SourceTranscript) => {
     slice: {
       region: {
         name: transcript.seq_region_name,
-        strand: transcript.strand
+        strand: {
+          code: transcript.strand === 1 ? 'forward' : 'reverse',
+          value: transcript.strand
+        }
       },
       location: {
         start: exon.start,

@@ -17,7 +17,10 @@ export const buildGeneWithoutTranscript = (source: SourceGene): GeneWithoutTrans
     slice: {
       region: { // FIXME: region
         name: source.seq_region_name,
-        strand: source.strand
+        strand: {
+          code: source.strand === 1 ? 'forward' : 'reverse',
+          value: source.strand
+        }
       },
       location: {
         start: source.start,
