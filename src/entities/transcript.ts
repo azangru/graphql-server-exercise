@@ -3,6 +3,7 @@ import { Field, ObjectType } from 'type-graphql';
 import Gene from './gene';
 import Slice from './slice';
 import Exon from './exon';
+import CDS from './cds';
 
 @ObjectType()
 export default class Transcript {
@@ -26,6 +27,9 @@ export default class Transcript {
 
   @Field(() => [Exon])
   exons: Exon[];
+
+  @Field(() => CDS)
+  cds: CDS;
 
   @Field(() => Gene)
   gene: Gene;

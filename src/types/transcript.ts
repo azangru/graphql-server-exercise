@@ -1,5 +1,6 @@
 import { Slice } from './slice';
 import { Exon } from './exon';
+import { CDS } from './cds';
 
 export type TranscriptWithoutGene = {
   id: string;
@@ -10,4 +11,5 @@ export type TranscriptWithoutGene = {
   assembly_name: string;
   gene_id: string;
   exons: Exon[];
+  cds: CDS;
 };

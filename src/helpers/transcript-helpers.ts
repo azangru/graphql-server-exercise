@@ -21,11 +21,19 @@ export const buildTranscriptWithoutGene = (source: SourceTranscript): Transcript
     symbol: (source as RegionTranscriptType).external_name || (source as TranscriptType).display_name || null,
     version: source.version,
     slice: {
-      region: { // FIXME: region
+      region: {
         name: source.seq_region_name,
         strand: source.strand
       },
       location: {
+        start: source.start,
+        end: source.end
+      }
+    },
+    cds: { // this is very much mocked
+      start: source.start,
+      end: source.end,
+      relative_location: {
         start: source.start,
         end: source.end
       }

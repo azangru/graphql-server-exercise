@@ -7,7 +7,7 @@ type Exon = {
   start: number;
   end: number
   strand: number
-}
+};
 
 export type Transcript = {
   object_type: "Transcript";
@@ -23,7 +23,7 @@ export type Transcript = {
   end: number;
   biotype: string;
   Exon: Exon[]
-}
+};
 
 
 /*
