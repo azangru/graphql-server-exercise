@@ -22,8 +22,17 @@ export type Transcript = {
   start: number;
   end: number;
   biotype: string;
-  Exon: Exon[]
+  Exon: Exon[];
+  Translation: Translation
 };
+
+type Translation = {
+  object_type: string,
+  id: string,
+  length: number,
+  start: number,
+  end: number
+}
 
 
 /*

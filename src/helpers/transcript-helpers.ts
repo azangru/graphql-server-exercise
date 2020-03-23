@@ -15,6 +15,25 @@ type SourceTranscript = RegionTranscriptWithExons | TranscriptType;
 
 export const buildTranscriptWithoutGene = (source: SourceTranscript): TranscriptWithoutGene => {
   const exons: ExonType[] = (source as RegionTranscriptWithExons).exons || (source as TranscriptType).Exon
+  let cds = { // this is very much mocked
+    start: source.start,
+    end: source.end,
+    relative_location: {
+      start: source.start,
+      end: source.end
+    }
+  };
+  if ((source as TranscriptType).Translation) {
+    const Translation = (source as TranscriptType).Translation;
+    cds = {
+      start: Translation.start,
+      end: Translation.end,
+      relative_location: {
+        start: Translation.start,
+        end: Translation.end
+      }
+    }
+  }
 
   return {
     id: source.id,
@@ -33,14 +52,7 @@ export const buildTranscriptWithoutGene = (source: SourceTranscript): Transcript
         end: source.end
       }
     },
-    cds: { // this is very much mocked
-      start: source.start,
-      end: source.end,
-      relative_location: {
-        start: source.start,
-        end: source.end
-      }
-    },
+    cds,
     biotype: source.biotype,
     assembly_name: source.assembly_name,
     gene_id: source.Parent,
